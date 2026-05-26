@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>I Love Swimming | Rustenburg</title>
+  <link rel="preload" href="images/logo.jpg" as="image">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Righteous&family=Nunito:wght@300;400;600;700;800&display=swap&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --coral:   #f4907a;
+      --peach:   #f7c4a8;
+      --teal:    #2b7f8e;
+      --teal2:   #3da3b5;
+      --gold:    #d4a94a;
+      --cream:   #fdf4ec;
+      --blush:   #f9ddd3;
+      --white:   #ffffff;
+      --dark:    #1e4a54;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Nunito', sans-serif; background: var(--cream); color: var(--dark); overflow-x: hidden; }
+
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 1rem 2.5rem;
+      display: flex; align-items: center; justify-content: space-between;
+      transition: background 0.3s, box-shadow 0.3s;
+    }
+    nav.scrolled { background: rgba(253,244,236,0.96); backdrop-filter: blur(10px); box-shadow: 0 2px 20px rgba(244,144,122,0.15); }
+    .nav-brand { font-family: 'Righteous', cursive; font-size: 1.35rem; color: var(--teal); }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { color: var(--dark); text-decoration: none; font-size: 0.9rem; font-weight: 700; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--coral); }
+
+    .hero {
+      min-height: 100vh;
+      background: linear-gradient(145deg, #fde8dc 0%, #fdf0e8 40%, #e8f5f8 100%);
+      display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden;
+      padding: 6rem 2rem 5rem;
+    }
+    .blob { position: absolute; border-radius: 50%; filter: blur(60px); opacity: 0.45; pointer-events: none; }
+    .blob-1 { width:500px; height:500px; background:var(--peach); top:-100px; left:-120px; }
+    .blob-2 { width:400px; height:400px; background:#c9eaf0; bottom:-80px; right:-80px; }
+    .blob-3 { width:280px; height:280px; background:#fbd9c5; top:30%; right:10%; }
+    .hero-wave { position: absolute; bottom: -2px; left: 0; right: 0; }
+
+    .hero-inner {
+      position: relative; z-index: 2;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 3rem; max-width: 1100px; align-items: center;
+    }
+    .hero-text h1 { font-family: 'Righteous', cursive; font-size: clamp(2.6rem, 6vw, 5rem); color: var(--teal); line-height: 1.15; }
+    .hero-text h1 span { color: var(--coral); }
+    .hero-sub { margin-top: 0.5rem; font-size: 0.85rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); font-weight: 700; }
+    .hero-tagline { margin-top: 1.5rem; font-size: 1.1rem; line-height: 1.75; color: var(--dark); max-width: 420px; }
+    .hero-btns { display: flex; gap: 1rem; margin-top: 2rem; flex-wrap: wrap; }
+    .btn-primary { padding: 0.85rem 2rem; background: var(--coral); color: #fff; font-family: 'Nunito'; font-weight: 800; font-size: 0.9rem; border: none; border-radius: 50px; cursor: pointer; text-decoration: none; box-shadow: 0 6px 20px rgba(244,144,122,0.45); transition: transform 0.2s, box-shadow 0.2s; }
+    .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 12px 30px rgba(244,144,122,0.55); }
+    .btn-outline { padding: 0.85rem 2rem; background: transparent; color: var(--teal); font-family: 'Nunito'; font-weight: 800; font-size: 0.9rem; border: 2.5px solid var(--teal); border-radius: 50px; cursor: pointer; text-decoration: none; transition: background 0.2s, color 0.2s; }
+    .btn-outline:hover { background: var(--teal); color: #fff; }
+
+    .hero-logo { display: flex; align-items: center; justify-content: center; }
+    .hero-logo img { max-width: 340px; width: 100%; filter: drop-shadow(0 20px 40px rgba(0,0,0,0.12)); animation: floatLogo 4s ease-in-out infinite; }
+    @keyframes floatLogo { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-14px); } }
+
+    section { padding: 6rem 2rem; }
+    .container { max-width: 1100px; margin: 0 auto; }
+    .section-label { display: inline-block; font-size: 0.72rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--coral); font-weight: 800; margin-bottom: 0.5rem; }
+    .section-title { font-family: 'Righteous', cursive; font-size: clamp(1.8rem, 4vw, 2.8rem); color: var(--teal); line-height: 1.2; }
+    .divider { width: 50px; height: 4px; background: linear-gradient(to right, var(--coral), var(--peach)); border-radius: 2px; margin: 1rem 0 2rem; }
+
+    .about { background: var(--white); }
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+    .about-text p { font-size: 1.05rem; line-height: 1.8; color: #4a6570; margin-bottom: 1rem; }
+    .about-badges { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1.5rem; }
+    .badge-pill { display: inline-flex; align-items: center; gap: 0.4rem; background: var(--blush); color: var(--coral); font-weight: 700; font-size: 0.82rem; padding: 0.45rem 1rem; border-radius: 50px; }
+    .about-visual { background: linear-gradient(135deg, var(--blush) 0%, #d9f0f5 100%); border-radius: 2.5rem; padding: 2.5rem; text-align: center; box-shadow: 0 20px 50px rgba(244,144,122,0.12); position: relative; }
+    .about-visual .big-emoji { font-size: 5rem; }
+    .about-visual p { margin-top: 1rem; font-size: 1rem; font-weight: 600; color: var(--teal); }
+    .est-tag { position: absolute; top: -14px; right: -14px; background: var(--gold); color: #fff; font-weight: 800; font-size: 0.78rem; padding: 0.5rem 1rem; border-radius: 50px; box-shadow: 0 6px 16px rgba(0,0,0,0.12); }
+
+    .classes { background: linear-gradient(180deg, var(--cream) 0%, #e8f7fb 100%); }
+    .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; margin-top: 3rem; }
+    .card { background: var(--white); border-radius: 1.5rem; padding: 2rem 1.8rem; box-shadow: 0 4px 20px rgba(43,127,142,0.08); transition: transform 0.25s, box-shadow 0.25s; border-top: 4px solid transparent; }
+    .card:hover { transform: translateY(-6px); box-shadow: 0 16px 40px rgba(43,127,142,0.14); border-top-color: var(--coral); }
+    .card-icon { font-size: 2.2rem; margin-bottom: 0.8rem; }
+    .card h3 { font-family: 'Righteous', cursive; font-size: 1.15rem; color: var(--teal); margin-bottom: 0.5rem; }
+    .card p { font-size: 0.92rem; color: #5a7880; line-height: 1.7; }
+
+    .locations { background: var(--white); }
+    .locations-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 2.5rem; }
+    .location-card { background: linear-gradient(135deg, var(--blush), #d4eff5); border-radius: 1.5rem; padding: 2rem 2.2rem; box-shadow: 0 4px 20px rgba(244,144,122,0.1); }
+    .location-card .loc-icon { font-size: 2rem; margin-bottom: 0.7rem; }
+    .location-card h3 { font-family: 'Righteous', cursive; font-size: 1.2rem; color: var(--teal); margin-bottom: 0.3rem; }
+    .location-card p { font-size: 0.95rem; color: #4a6570; line-height: 1.6; }
+
+    .contact { background: linear-gradient(160deg, #e8f7fb 0%, var(--blush) 100%); }
+    .contact-wrapper { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: stretch; }
+    .contact-item { display: flex; gap: 1.2rem; align-items: flex-start; margin-bottom: 1.8rem; }
+    .contact-icon-box { width: 50px; height: 50px; background: var(--white); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; box-shadow: 0 4px 14px rgba(244,144,122,0.18); flex-shrink: 0; }
+    .contact-item h4 { font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--coral); font-weight: 800; margin-bottom: 0.25rem; }
+    .contact-item a, .contact-item p { color: var(--dark); text-decoration: none; font-size: 1rem; font-weight: 600; line-height: 1.5; transition: color 0.2s; }
+    .contact-item a:hover { color: var(--coral); }
+    .social-row { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 0.5rem; }
+    .social-btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.55rem 1.2rem; background: var(--white); border-radius: 50px; font-size: 0.85rem; font-weight: 700; color: var(--teal); text-decoration: none; box-shadow: 0 3px 12px rgba(43,127,142,0.12); transition: all 0.2s; }
+    .social-btn:hover { background: var(--teal); color: #fff; }
+
+    .form-side { background: var(--white); border-radius: 2rem; padding: 2.5rem; box-shadow: 0 10px 40px rgba(244,144,122,0.1); height: 100%; box-sizing: border-box; }
+    .form-side h3 { font-family: 'Righteous', cursive; font-size: 1.5rem; color: var(--teal); margin-bottom: 1.5rem; }
+    .form-group { margin-bottom: 1.1rem; }
+    .form-group label { display: block; font-size: 0.75rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: var(--coral); margin-bottom: 0.35rem; }
+    .form-group input, .form-group textarea, .form-group select { width: 100%; background: var(--cream); border: 2px solid #f0ddd4; border-radius: 12px; padding: 0.8rem 1rem; font-family: 'Nunito'; font-size: 0.95rem; color: var(--dark); outline: none; transition: border-color 0.2s; }
+    .form-group select option { background: #fff; }
+    .form-group input:focus, .form-group textarea:focus, .form-group select:focus { border-color: var(--coral); }
+    .form-group textarea { resize: vertical; min-height: 100px; }
+    .submit-btn { width: 100%; padding: 1rem; background: linear-gradient(135deg, var(--coral), #f07a60); color: #fff; font-family: 'Nunito'; font-weight: 800; font-size: 0.95rem; border: none; border-radius: 50px; cursor: pointer; box-shadow: 0 6px 22px rgba(244,144,122,0.45); transition: transform 0.2s, box-shadow 0.2s; }
+    .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 34px rgba(244,144,122,0.55); }
+
+    footer { background: var(--teal); color: rgba(255,255,255,0.85); text-align: center; padding: 2.5rem 2rem; }
+    footer .footer-brand { font-family: 'Righteous', cursive; font-size: 1.3rem; color: #fff; margin-bottom: 0.6rem; }
+    footer p { font-size: 0.88rem; line-height: 1.7; }
+    footer a { color: var(--peach); text-decoration: none; }
+
+    .fade-up { opacity: 0; transform: translateY(28px); transition: opacity 0.65s ease, transform 0.65s ease; }
+    .fade-up.visible { opacity: 1; transform: none; }
+
+
+    .team-section { background: linear-gradient(180deg, #e8f7fb 0%, var(--cream) 100%); }
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+    .team-card {
+      background: var(--white);
+      border-radius: 1.5rem;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(43,127,142,0.08);
+      transition: transform 0.25s, box-shadow 0.25s;
+      text-align: center;
+    }
+    .team-card:hover { transform: translateY(-6px); box-shadow: 0 16px 36px rgba(43,127,142,0.15); }
+    .team-card img { width: 100%; aspect-ratio: 1/1; object-fit: cover; display: block; }
+    .team-card-info { padding: 1rem 0.8rem 1.2rem; }
+    .team-card-info h3 { font-family: "Righteous", cursive; font-size: 1.05rem; color: var(--teal); margin-bottom: 0.2rem; }
+    .team-card-info span { font-size: 0.8rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: var(--coral); }
+
+    @media (max-width: 768px) {
+      .hero-inner, .about-grid, .contact-wrapper, .locations-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .hero-logo { order: -1; }
+      .hero-logo img { max-width: 220px; }
+      .nav-links { display: none; }
+      section { padding: 4rem 1.2rem; }
+    }
+  </style>
+</head>
+<body>
+
+<nav id="nav">
+  <div class="nav-brand">I Love Swimming</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#classes">Classes</a></li>
+    <li><a href="#team">Team</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<section class="hero" id="home">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+  <div class="hero-inner">
+    <div class="hero-text fade-up">
+      <p class="hero-sub">Rustenburg · North West · Est. 2015</p>
+      <h1>I <span>Love</span><br>Swimming</h1>
+      <p class="hero-tagline">Professional swimming lessons for all ages &amp; abilities — in a safe, fun and encouraging environment. Great vibes guaranteed!</p>
+      <div class="hero-btns">
+        <a href="#contact" class="btn-primary">📞 Get In Touch</a>
+        <a href="#classes" class="btn-outline">Our Classes</a>
+      </div>
+    </div>
+    <div class="hero-logo fade-up" style="transition-delay:0.15s">
+      <img src="images/logo.jpg" alt="I Love Swimming Rustenburg Logo" />
+    </div>
+  </div>
+  <svg class="hero-wave" viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+    <path d="M0,40 C360,80 1080,0 1440,40 L1440,80 L0,80 Z" fill="#ffffff"/>
+  </svg>
+</section>
+
+<section id="about" class="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-text fade-up">
+        <span class="section-label">Who We Are</span>
+        <h2 class="section-title">Making a Splash<br>in Rustenburg</h2>
+        <div class="divider"></div>
+        <p>At I Love Swimming, we believe that learning to swim is one of the greatest life skills you can give yourself or your child. Our passionate instructors create a warm, supportive atmosphere where every student feels confident in the water.</p>
+        <p>From complete beginners to competitive swimmers, we offer structured programs tailored to every level. Our classes are small, focused and always filled with great vibes!</p>
+        <p>Bookings are open — spaces are limited, so secure yours today!</p>
+        <div class="about-badges">
+          <span class="badge-pill">🏊 All Ages Welcome</span>
+          <span class="badge-pill">⭐ Est. 2015</span>
+          <span class="badge-pill">📍 Rustenburg</span>
+        </div>
+      </div>
+      <div class="about-visual fade-up" style="transition-delay:0.15s">
+        <div class="est-tag">Est. 2015</div>
+        <div class="big-emoji">🌊</div>
+        <p>Building water confidence,<br>one splash at a time!</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="classes" class="classes">
+  <div class="container">
+    <span class="section-label">What We Offer</span>
+    <h2 class="section-title">Classes for Everyone</h2>
+    <div class="divider"></div>
+    <div class="cards-grid">
+      <div class="card fade-up"><div class="card-icon">👶</div><h3>Baby &amp; Toddler</h3><p>Water confidence and safety for your little ones in a gentle, caring setting. Ages 6 months and up.</p></div>
+      <div class="card fade-up" style="transition-delay:0.1s"><div class="card-icon">🧒</div><h3>Kids Lessons</h3><p>Structured stroke development from beginner to advanced — fun-filled and age-appropriate.</p></div>
+      <div class="card fade-up" style="transition-delay:0.2s"><div class="card-icon">🏊</div><h3>Adult Lessons</h3><p>Never too late to learn! Private and group adult classes available, including aqua fitness.</p></div>
+      
+  </div>
+</section>
+
+
+
+
+<section id="team" class="team-section">
+  <div class="container">
+    <span class="section-label">The People Behind the Splash</span>
+    <h2 class="section-title">Meet the Team</h2>
+    <div class="divider"></div>
+    <div class="team-grid">
+      
+      <div class="team-card fade-up" style="transition-delay:0.00s">
+        <img src="images/liese.jpg" alt="Liese" loading="lazy" width="400" height="400">
+        <div class="team-card-info"><h3>Liese</h3><span>Principal</span></div>
+      </div>
+      <div class="team-card fade-up" style="transition-delay:0.06s">
+        <img src="images/hilda.jpg" alt="Hilda" loading="lazy" width="400" height="400">
+        <div class="team-card-info"><h3>Hilda</h3><span>Helper</span></div>
+      </div>
+      <div class="team-card fade-up" style="transition-delay:0.12s">
+        <img src="images/chrissy.jpg" alt="Chrissy" loading="lazy" width="400" height="400">
+        <div class="team-card-info"><h3>Chrissy</h3><span>Instructor</span></div>
+      </div>
+      <div class="team-card fade-up" style="transition-delay:0.18s">
+        <img src="images/jadene.jpg" alt="Jadene" loading="lazy" width="400" height="400">
+        <div class="team-card-info"><h3>Jadene</h3><span>Instructor</span></div>
+      </div>
+      <div class="team-card fade-up" style="transition-delay:0.24s">
+        <img src="images/leah.jpg" alt="Leah" loading="lazy" width="400" height="400">
+        <div class="team-card-info"><h3>Leah</h3><span>Barista</span></div>
+      </div>
+      <div class="team-card fade-up" style="transition-delay:0.30s">
+        <img src="images/alecia.jpg" alt="Alecia" loading="lazy" width="400" height="400">
+        <div class="team-card-info"><h3>Alecia</h3><span>Manager</span></div>
+      </div>
+      <div class="team-card fade-up" style="transition-delay:0.36s">
+        <img src="images/judy.jpg" alt="Judy" loading="lazy" width="400" height="400">
+        <div class="team-card-info"><h3>Judy</h3><span>Aqua</span></div>
+      </div>
+      <div class="team-card fade-up" style="transition-delay:0.42s">
+        <img src="images/megan_sq.jpg" alt="Megan" loading="lazy" width="400" height="400">
+        <div class="team-card-info"><h3>Megan</h3><span>Squad</span></div>
+      </div>
+      <div class="team-card fade-up" style="transition-delay:0.48s">
+        <img src="images/megan_in.jpg" alt="Megan" loading="lazy" width="400" height="400">
+        <div class="team-card-info"><h3>Megan</h3><span>Instructor</span></div>
+      </div>
+      <div class="team-card fade-up" style="transition-delay:0.54s">
+        <img src="images/nadia.jpg" alt="Nadia" loading="lazy" width="400" height="400">
+        <div class="team-card-info"><h3>Nadia</h3><span>Instructor</span></div>
+      </div>
+      <div class="team-card fade-up" style="transition-delay:0.60s">
+        <img src="images/michelle.jpg" alt="Michelle" loading="lazy" width="400" height="400">
+        <div class="team-card-info"><h3>Michelle</h3><span>Driver</span></div>
+      </div>
+      <div class="team-card fade-up" style="transition-delay:0.66s">
+        <img src="images/mapula.jpg" alt="Mapula" loading="lazy" width="400" height="400">
+        <div class="team-card-info"><h3>Mapula</h3><span>Helper</span></div>
+      </div>
+      <div class="team-card fade-up" style="transition-delay:0.72s">
+        <img src="images/marine.jpg" alt="Marine" loading="lazy" width="400" height="400">
+        <div class="team-card-info"><h3>Marine</h3><span>Instructor</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact" class="contact">
+  <div class="container">
+    <span class="section-label">Get In Touch</span>
+    <h2 class="section-title">Ready to Dive In?</h2>
+    <div class="divider"></div>
+    <div class="contact-wrapper">
+      <div class="fade-up">
+        <div class="contact-item">
+          <div class="contact-icon-box">📞</div>
+          <div><h4>Phone / WhatsApp</h4><a href="tel:+27828151145">082 815 1145</a></div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon-box">✉️</div>
+          <div><h4>Email</h4><a href="mailto:liese.iloveswimming@gmail.com">liese.iloveswimming@gmail.com</a></div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon-box">📍</div>
+          <div><h4>Locations</h4><p>47 Bult Street, Rustenburg<br>Laerskool Rustenburg</p></div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon-box">🕐</div>
+          <div><h4>Bookings</h4><p>Contact us to check availability.<br>Spaces are limited — book early!</p></div>
+        </div>
+        <div class="social-row">
+          <a href="https://www.facebook.com/iloveswimmingwithliese/" target="_blank" class="social-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>Facebook
+          </a>
+          <a href="https://www.instagram.com/explore/locations/1013257576/i-love-swimming/" target="_blank" class="social-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>Instagram
+          </a>
+        </div>
+      </div>
+      <div class="form-side fade-up" style="transition-delay:0.2s">
+        <h3>Send a Message</h3>
+        <form onsubmit="handleSubmit(event)">
+          <div class="form-group"><label>Your Name</label><input type="text" placeholder="e.g. Thabo Nkosi" required /></div>
+          <div class="form-group"><label>Phone / Email</label><input type="text" placeholder="+27 8X XXX XXXX or email@address.com" required /></div>
+          <div class="form-group">
+            <label>Interested In</label>
+            <select>
+              <option value="">Select a class type…</option>
+              <option>Baby &amp; Toddler Lessons</option>
+              <option>Kids Lessons</option>
+              <option>Adult Lessons</option>
+              <option>Squad Training</option>
+              <option>General Enquiry</option>
+            </select>
+          </div>
+          <div class="form-group"><label>Message</label><textarea placeholder="Tell us about yourself or ask any questions…"></textarea></div>
+          <button type="submit" class="submit-btn">Send Message 🌊</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p class="footer-brand">I Love Swimming — Rustenburg</p>
+  <p>47 Bult Street &amp; Laerskool Rustenburg, North West, South Africa</p>
+  <p style="margin-top:0.4rem">📞 <a href="tel:+27828151145">082 815 1145</a> &nbsp;|&nbsp; ✉️ <a href="mailto:liese.iloveswimming@gmail.com">liese.iloveswimming@gmail.com</a></p>
+  <p style="margin-top:1rem; opacity:0.5; font-size:0.8rem">© 2025 I Love Swimming Rustenburg. All rights reserved.</p>
+</footer>
+
+<script>
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 60));
+  const faders = document.querySelectorAll('.fade-up');
+  faders.forEach(f => new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.12 }).observe(f));
+  function handleSubmit(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('.submit-btn');
+    btn.textContent = '✅ Message Sent!';
+    btn.style.background = 'linear-gradient(135deg, #5bbf7a, #3da370)';
+    setTimeout(() => { btn.textContent = 'Send Message 🌊'; btn.style.background = ''; e.target.reset(); }, 3000);
+  }
+</script>
+</body>
+</html>
